@@ -1,11 +1,18 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+import {NavLink, Link} from 'react-router-dom';
 
-const LikedUsers = (likedUsers) => {
-    //let users = likedUsers !== undefined? likedUsers : [];
+const LikedUsers = () => {
+    const users = useSelector((state)=>state.users);
     return(
         <div className="Container">
-           Liked Users
+           {users?.map((user)=>{
+               if(user.isLiked){
+                   return (
+                       <h3>{user.name}</h3>
+                   )
+               }
+           })}
         </div>
     )
 }

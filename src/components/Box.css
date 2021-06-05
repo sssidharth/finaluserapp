@@ -1,12 +1,22 @@
-.box{
+.box-light{
     background-color: #ffff;
     border-radius: 10px 10px 10px 10px;
     overflow: hidden;
     height: 450px;
-    width : 400px;
     -webkit-box-shadow : 0px 12px 18px -6px rgba(0,0,0,0.3);
     box-shadow: 0px 12px 18px -6px rgba(0,0,0,0.3);
-    margin: 10px;
+    margin: 25px;
+    text-align: center;
+}
+
+.box-dark{
+    background-color: rgb(100, 98, 98);
+    border-radius: 10px 10px 10px 10px;
+    overflow: hidden;
+    height: 450px;
+    -webkit-box-shadow : 0px 12px 18px -6px rgb(255, 255, 255);
+    box-shadow: 0px 12px 18px -6px rgba(255, 255, 255);
+    margin: 25px;
     text-align: center;
 }
 
@@ -25,7 +35,7 @@
     width: 200px;
     height: 200px;
     align-items: center;
-    background-color: rgb(236, 226, 226);
+    background-color: rgb(243, 233, 233);
 }
 
 .user-info{
@@ -33,4 +43,28 @@
     flex-Direction: 'row';
     margin-Bottom : 10px;
     text-align: left;
+}
+
+.fa-thumbs-up{
+    color : rgb(77, 77, 245);
+    font-size : 20px;
+}
+
+.fa-thumbs-o-up{
+    color : rgb(77, 77, 245);
+    font-size : 20px;  
+}
+
+.fa-pencil-square-o{
+    color: rgb(92, 90, 90);
+    font-size: 20px;
+}
+
+.fa-trash-o{
+    color: rgb(92, 90, 90);
+    font-size: 20px;
+}
+
+.fa:hover{
+    font-size: 22px;
 }

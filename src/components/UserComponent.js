@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {Card} from 'react-bootstrap';
-import {FaRegThumbsUp, FaTrash, FaRegEdit, FaEnvelope, FaPhone, FaGlobe} from 'react-icons/fa';
-import {Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import Modal from 'react-bootstrap/Modal';
+import {FaEnvelope, FaPhone, FaGlobe} from 'react-icons/fa';
+import { Form, FormGroup, Label, Input, Button} from 'reactstrap';
 
-const UserCard = ({user, deleteUser, addLikedUser}) => {
-        const {id, username, name, email, phone, website, address, company} = user;
+
+const UserCard = ({user, deleteUser, addLikedUser, light}) => {
+        
+        const {id, username, name, email, phone, website, address, isLiked, company} = user;
         const image = `https://avatars.dicebear.com/v2/avataaars/${username}.svg?options[mood][]=happy`;
-        let liked = false;
-        let likedUsers = [];
         const[submitted, setSubmitted] = useState({
           count : 0,
           prevDetails : []
@@ -21,19 +22,6 @@ const UserCard = ({user, deleteUser, addLikedUser}) => {
         const [modal, setModal] = useState({
           isModalOpen : false
         });
-        
-
-       function changeLiked(user){
-        liked = !liked;
-
-          if(liked === true){
-            likedUsers.push(user);
-          }
-          else{
-            likedUsers.pop(user);
-          }
-          addLikedUser(likedUsers);
-       }
 
        function toggleModal(){
           setModal({...modal , isModalOpen : !modal?.isModalOpen})
@@ -61,7 +49,7 @@ const UserCard = ({user, deleteUser, addLikedUser}) => {
       }
 
       function handleSubmit(e){
-        let eventName = e.target.name;
+        let eventName = e?.target?.name;
         if(eventName === "submit" && details.name !== "" && details.email!== "" && details.phone!=="" && details.website!==""){          
           setSubmitted({
             count : submitted.count+1,
@@ -86,7 +74,7 @@ const UserCard = ({user, deleteUser, addLikedUser}) => {
 
       return(   
         <React.Fragment>   
-        <Card style={{ width: '22rem' }} className="box">
+        <Card style={{ width: '20rem' }} className={light ? 'box-light' : 'box-dark'}>
            <Card.Img
                 src={image}
                 alt="Avatar"
@@ -112,50 +100,53 @@ const UserCard = ({user, deleteUser, addLikedUser}) => {
           <Card.Footer>
           <button
               style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none', margin : "15px", width: "20%" }}
-              onClick={()=>{changeLiked(user)}}
-            >
-             {liked? <i class="fa fa-thumbs-up" style={{ color: 'blue', fontSize: 20 }}></i> :<i class="fa fa-thumbs-o-up" style={{ color: 'blue', fontSize: 20 }} />}
+              onClick={()=>{addLikedUser(id)}}>
+             {isLiked? <i class="fa fa-thumbs-up" ></i> : <i class="fa fa-thumbs-o-up"/>}
             </button>|
             <button
               style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none', margin : "15px", width: "20%" }} 
-              onClick={()=>toggleModal()}
-            >
-              {<FaRegEdit style={{ fontSize: 18 }} />}
+              onClick={()=>toggleModal()}>
+              {<i class="fa fa-pencil-square-o"/>}
             </button>|
             <button
               style={{ background: 'none', border: 'none', cursor: 'pointer', outline: 'none', margin : "15px", width: "20%" }}
               onClick={() => {
                 deleteUser(id);
-              }}
-            >
-              {<FaTrash theme="filled" style={{ fontSize: 18 }} />}
+              }}>
+              {<i class="fa fa-trash-o"/>}
             </button>
             </Card.Footer>          
         </Card>
-          <Modal isOpen= {modal.isModalOpen} toggle={()=>toggleModal()}>
-                <ModalHeader toggle={()=>toggleModal()}>User Information</ModalHeader>
-                <ModalBody>
+          <Modal show= {modal.isModalOpen} backdrop="static"
+                 keyboard={false} name="cancel">
+                <Modal.Header>User Information</Modal.Header>
+                <Modal.Body>
                    <Form>
                         <FormGroup>
                            <Label htmlFor="name">User Name*</Label>
                            <Input type="text" required id="name" name="name" value={details.name} onChange={(e)=>handleUserData(e)}></Input>
-                        </FormGroup>                                      
+                        </FormGroup>
+                        <br/>                                      
                         <FormGroup>
                            <Label htmlFor="email">Email*</Label>
                            <Input type="email" required id="email" name="email" value={details.email} onChange={(e)=>handleUserData(e)}></Input>
                         </FormGroup>
+                        <br/>
                         <FormGroup>
                            <Label htmlFor="phone">Phone*</Label>
                            <Input type="phone" required id="phone" name="phone" value={details.phone} onChange={(e)=>handleUserData(e)}></Input>
                         </FormGroup>
+                        <br/>
                         <FormGroup>
                            <Label htmlFor="website">Website*</Label>
                            <Input type="website" id="website" name="website" value={details.website} onChange={(e)=>handleUserData(e)}></Input>
-                        </FormGroup>
+                        </FormGroup>                   
+                    </Form>
+                    <Modal.Footer>
                     <Button type="submit" id="submit" name="submit" value="submit" color="primary" onClick={(e)=>handleSubmit(e)}>Submit</Button>{' '}
                     <Button type="cancel" id="cancel" name="cancel" value="cancel" color="outline-secondary" onClick={(e)=>handleSubmit(e)}>Cancel</Button>
-                    </Form>
-                </ModalBody>
+                    </Modal.Footer>
+                </Modal.Body>
           </Modal>
         </React.Fragment>
       );

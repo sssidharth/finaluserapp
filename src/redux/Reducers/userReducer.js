@@ -1,8 +1,7 @@
 import {ActionTypes} from  '../Constants/actionTypes';
-import{setLikedUsers} from '../Actions/userActions';
+
 const intitialState = {
     users : [],
-    liked: []
 };
 
 export const usersReducer = (state = intitialState , {type,payload}) => {
@@ -15,8 +14,4 @@ export const usersReducer = (state = intitialState , {type,payload}) => {
             return state;
     }        
     
-};
-
-export const setLiked = (likedUsers) => async (dispatch, getState) => {
-      await dispatch(setLikedUsers(likedUsers))
 };

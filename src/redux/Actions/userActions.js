@@ -8,9 +8,3 @@ export const setUsers = (users) => {
     };
 };
 
-export const setLikedUsers = (likedUsers) => {
-    return {
-        type : ActionTypes.SET_LIKED,
-        payload : likedUsers,
-    };
-};
