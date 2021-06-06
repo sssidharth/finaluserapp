@@ -12,8 +12,14 @@ Runs the app in the development mode.\
 Open [http://localhost:3002](http://localhost:3002) to view it in the browser.
 
 # implementaion details
- - Implemented Delete and Edit users functionality
- - Like user is implemented but need to use different libarary to get the Icons to toggle liked
- - I have used the redux-thunk to add the liked users, but I need to implement the liked users page
- - Added a basic routing to navigate to users page. Currently able to route but liked users are not being displayed.
+- Implemented delete, Edit and Like functionality
+- Created a header for Router Navigation.
+- Implemented a Dark and Light Mode switch.
+- Came across 'antd' library at the last stage of development. Implemented the Modal, form validation and a Loading spinner using it for now.
+- Icons using Font awesome.
+- Used react-bootstrap for the user Cards.
+- Tried several Form validation libraries before settling for antd which seemed to be the simplest.
+- Used my own css for creating the grid design. Also used inline css at some places.
+- Liked users get the users list from redux state itself. Currently just displaying the name but can be scaled to make cards later.
+- Project deployed on Github pages.
 
