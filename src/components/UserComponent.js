@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Card} from 'react-bootstrap';
 import {FaEnvelope, FaPhone, FaGlobe} from 'react-icons/fa';
-import 'antd/dist/antd.css';
 import { Modal, Form, Input } from 'antd';
 
 
