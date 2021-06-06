@@ -39,12 +39,12 @@ const Header = ({theme, setTheme}) => {
          <Nav className="ml-auto" navbar>
                 <NavItem>
                 <BootstrapSwitchButton
-                     checked={false}
+                     checked={!theme}
                      size="sm"
                      onlabel='On'
                      offlabel='Off'
                      onChange={toggleTheme}
-                     onstyle="dark" offstyle="light"/>                  
+                     onstyle="dark" offstyle="secondary"/>                  
                 </NavItem>
             </Nav>
          </Collapse>

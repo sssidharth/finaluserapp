@@ -1,17 +1,16 @@
 import React, {useState} from 'react';
 import {Card} from 'react-bootstrap';
-import Modal from 'react-bootstrap/Modal';
 import {FaEnvelope, FaPhone, FaGlobe} from 'react-icons/fa';
-import { Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import 'antd/dist/antd.css';
+import { Modal, Form, Input } from 'antd';
 
 
 const UserCard = ({user, deleteUser, addLikedUser, light}) => {
-        
+        const [form] = Form.useForm();
         const {id, username, name, email, phone, website, address, isLiked, company} = user;
         const image = `https://avatars.dicebear.com/v2/avataaars/${username}.svg?options[mood][]=happy`;
         const[submitted, setSubmitted] = useState({
           count : 0,
-          prevDetails : []
         });
         const [details, setDetails] = useState({
           name : name,
@@ -27,49 +26,34 @@ const UserCard = ({user, deleteUser, addLikedUser, light}) => {
           setModal({...modal , isModalOpen : !modal?.isModalOpen})
        }
 
-      function handleUserData(e){
-        let name = e.target.name;
-        let value = e.target.value;
+      const handleSubmit = (values) =>{
+        setSubmitted({
+                count : submitted.count+1,
+              })
 
-        if(name === "name"){
-          setDetails({...details, name : value})
-        }
-        if(name === "email"){
-          setDetails({...details, email: value})
-        }
-        if(name === "phone"){
-          setDetails({...details, phone: value})
-        }
-        if(name === "website"){
-          setDetails({...details, website: value})
-        }
-              
-        console.log(details);
-        e.preventDefault();     
+        setDetails({
+              name : values.name,
+              email : values.email,
+              phone: values.phone,
+              website : values.website
+        })
+        toggleModal();
       }
 
-      function handleSubmit(e){
-        let eventName = e?.target?.name;
-        if(eventName === "submit" && details.name !== "" && details.email!== "" && details.phone!=="" && details.website!==""){          
-          setSubmitted({
-            count : submitted.count+1,
-            prevDetails : details
-          })
-        }
-        if(eventName === "cancel"){
-          if(submitted.count === 0)
-          setDetails({
-            name : name,
-            email : email,
-            phone: phone,
-            website : website
-          });
-          else if(submitted.count>0){
-            setDetails(submitted.prevDetails)
-          }          
-        }
-        toggleModal();
-        e.preventDefault();
+      const onCancel = () =>{
+        if(submitted.count === 0){
+            setDetails({
+              name : name,
+              email : email,
+              phone: phone,
+              website : website
+            });
+          }
+            else if(submitted.count>0){
+              setDetails(details)
+            }          
+          
+          toggleModal();
       }
 
       return(   
@@ -117,37 +101,82 @@ const UserCard = ({user, deleteUser, addLikedUser, light}) => {
             </button>
             </Card.Footer>          
         </Card>
-          <Modal show= {modal.isModalOpen} backdrop="static"
-                 keyboard={false} name="cancel">
-                <Modal.Header>User Information</Modal.Header>
-                <Modal.Body>
-                   <Form>
-                        <FormGroup>
-                           <Label htmlFor="name">User Name*</Label>
-                           <Input type="text" required id="name" name="name" value={details.name} onChange={(e)=>handleUserData(e)}></Input>
-                        </FormGroup>
-                        <br/>                                      
-                        <FormGroup>
-                           <Label htmlFor="email">Email*</Label>
-                           <Input type="email" required id="email" name="email" value={details.email} onChange={(e)=>handleUserData(e)}></Input>
-                        </FormGroup>
-                        <br/>
-                        <FormGroup>
-                           <Label htmlFor="phone">Phone*</Label>
-                           <Input type="phone" required id="phone" name="phone" value={details.phone} onChange={(e)=>handleUserData(e)}></Input>
-                        </FormGroup>
-                        <br/>
-                        <FormGroup>
-                           <Label htmlFor="website">Website*</Label>
-                           <Input type="website" id="website" name="website" value={details.website} onChange={(e)=>handleUserData(e)}></Input>
-                        </FormGroup>                   
-                    </Form>
-                    <Modal.Footer>
-                    <Button type="submit" id="submit" name="submit" value="submit" color="primary" onClick={(e)=>handleSubmit(e)}>Submit</Button>{' '}
-                    <Button type="cancel" id="cancel" name="cancel" value="cancel" color="outline-secondary" onClick={(e)=>handleSubmit(e)}>Cancel</Button>
-                    </Modal.Footer>
-                </Modal.Body>
-          </Modal>
+        <Modal
+         visible={modal.isModalOpen}
+         title="Edit User"
+         okText="Submit"
+         cancelText="Cancel"
+         onCancel={onCancel}
+         onOk={() => {
+           form
+          .validateFields()
+          .then((values) => {
+            handleSubmit(values);
+          })
+          .catch((info) => {
+            console.log('Validate Failed:', info);
+          });
+         }}
+        >
+        <Form
+        form={form}
+        layout="vertical"
+        name="form_in_modal"
+        >
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[
+            {
+              required: true,
+              message: 'Name is required',
+            },
+          ]}
+          initialValue={details.name}
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            {
+              required: true,
+              message: 'Email is required',
+            },
+          ]}
+          initialValue = {details.email}
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="phone"
+          label="Phone"
+          rules={[
+            {
+              required: true,
+              message: 'Phone number is required',
+            },
+          ]}
+          initialValue = {details.phone}
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="website"
+          label="Website"
+          rules={[
+            {
+              required: true,
+              message: 'Website is required',
+            },
+          ]}
+          initialValue = {details.website}
+        >
+          <Input/>
+        </Form.Item>
+        </Form>
+        </Modal>
         </React.Fragment>
       );
        

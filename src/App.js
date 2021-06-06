@@ -6,8 +6,11 @@ import LikedUsers from './components/LikedUsers';
 import { useDispatch} from 'react-redux';
 import {setUsers} from './redux/Actions/userActions';
 import Navbar from './components/Header/Header';
+import 'antd/dist/antd.css';
+import {Spin} from 'antd';
 
 const App = () =>{
+  const [loading, setLoading] = useState(false);
   const [light, setLight] = useState(true);
   const url = "https://jsonplaceholder.typicode.com/users";
   const dispatch = useDispatch();
@@ -24,12 +27,17 @@ const App = () =>{
 }
 
 useEffect(()=>{
+  setLoading(true)
   fetchUsers();
+  setTimeout(()=>{
+    setLoading(false)
+  },2000)
 },[])
 
     return (   
 
       <div className={light ? 'lightMode' : 'darkMode'}>
+      {loading ? <Spin tip = "Loading..." size="large"></Spin> :  
       <Router>
         <Navbar theme={light} setTheme={setLight}/>
         <Switch>
@@ -38,6 +46,7 @@ useEffect(()=>{
         <Redirect to="/Home"/>
         </Switch>
       </Router>
+      }
     </div>
   );
 }
