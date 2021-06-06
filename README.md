@@ -21,5 +21,4 @@ Open [http://localhost:3002](http://localhost:3002) to view it in the browser.
 - Tried several Form validation libraries before settling for antd which seemed to be the simplest.
 - Used my own css for creating the grid design. Also used inline css at some places.
 - Liked users get the users list from redux state itself. Currently just displaying the name but can be scaled to make cards later.
-- Project deployed on Github pages.
 
